@@ -22,7 +22,21 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
+    if board == terminal(board):
+        return None
+    if board == initial_state():
+        return X
+    else:
+        x_count = 0
+        o_count = 0
+        for row in board:
+            for cell in row:
+                if cell == X:
+                    x_count += 1
+                elif cell == O:
+                    o_count += 1
+        # If the number of Xs is equal to the number of Os, it's X's turn
+        return X if x_count == o_count else O
 
 
 def actions(board):
