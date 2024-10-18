@@ -137,6 +137,7 @@ def minimax(board):
 
     current_player = player(board)
     if current_player == X:
+        # since we want max for X, we start with -inf and find better/higher values
         best_value = -math.inf
         best_action = None
         for action in actions(board):
@@ -146,6 +147,7 @@ def minimax(board):
                 best_action = action
         return best_action
     else:
+        # since we want min for O, we start with inf and find worse/lower values
         best_value = math.inf
         best_action = None
         for action in actions(board):
