@@ -57,12 +57,12 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    if board[action[0][0]] != EMPTY:
+    if board[action[0]][action[1]] != EMPTY:
         raise Exception("Invalid action")
     # make a copy of the board ( so original one not modified)
     new_board = copy.deepcopy(board)
     # decide which player's turn it is, then place their move on the board
-    new_board[action[0][0]][action[0][1]] = player(board)
+    new_board[action[0]][action[1]] = player(board)
     return new_board
     
 
@@ -116,4 +116,41 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    if terminal(board):
+        return None
+
+    def max_value(board):
+        if terminal(board):
+            return utility(board)
+        v = -math.inf
+        for action in actions(board):
+            v = max(v, min_value(result(board, action)))
+        return v
+
+    def min_value(board):
+        if terminal(board):
+            return utility(board)
+        v = math.inf
+        for action in actions(board):
+            v = min(v, max_value(result(board, action)))
+        return v
+
+    current_player = player(board)
+    if current_player == X:
+        best_value = -math.inf
+        best_action = None
+        for action in actions(board):
+            action_value = min_value(result(board, action))
+            if action_value > best_value:
+                best_value = action_value
+                best_action = action
+        return best_action
+    else:
+        best_value = math.inf
+        best_action = None
+        for action in actions(board):
+            action_value = max_value(result(board, action))
+            if action_value < best_value:
+                best_value = action_value
+                best_action = action
+        return best_action
