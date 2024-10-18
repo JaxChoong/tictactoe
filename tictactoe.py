@@ -59,6 +59,8 @@ def result(board, action):
     """
     if board[action[0]][action[1]] != EMPTY:
         raise Exception("Invalid action")
+    if action not in actions(board):
+        raise Exception("Invalid action")
     # make a copy of the board ( so original one not modified)
     new_board = copy.deepcopy(board)
     # decide which player's turn it is, then place their move on the board
